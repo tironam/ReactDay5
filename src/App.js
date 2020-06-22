@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-function App() {
+const App = () => {
+
+  const [ countState, setCountState ] = useState({
+    count: 0,
+    name: 'John Doe'
+  }) 
+
+  
+
+  countState.handleIncrement = () => {
+    setCountState({ ...countState, count: countState.count + 1 })
+  }
+
+  countState.handleDecrement = () => {
+    setCountState({ ...countState, count: countState.count - 1 })
+  }
+
+  const [userState, setUserState] = useState({
+    name: '',
+    dispName: ''
+  })
+
+  userState.handleInputChange = event => {
+    setUserState({ ...userState, [event.target.name]: event.target.value })
+  }
+
+  userState.handleSubmit = event => {
+    event.preventDefault()
+    setUserState({ ...userState, dispName: userState.name, name: '' })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <>
+    <h1>Name:{countState.name} </h1>
+      <h1>Count: {countState.count}</h1>
+      <button onClick={countState.handleIncrement}>+</button>
+      <button onClick={countState.handleDecrement}>-</button>
+      <hr/>
+      <h1>Name: {userState.dispName}</h1>
+      <form>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <label htmlFor="name">Name</label>
+          <input 
+            type="text"
+            name="name"
+            id="name"
+            onChange={userState.handleInputChange}
+            value={userState.name} />
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        <button onClick={userState.handleSubmit}>Submit</button>
+      </form>
+    </>
+  )
 }
 
-export default App;
+export default App
